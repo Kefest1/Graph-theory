@@ -11,6 +11,10 @@ abstract class Data_t extends Object {
 class Vertex_t extends Data_t {
     char x = 0;
 
+    public String toString() {
+        return String.valueOf(x);
+    }
+
 
     Vertex_t(char X) {
         x = X;
@@ -47,7 +51,7 @@ public class UndirectedGraph {
 
         return true;
     }
-    /**                    x1 ------> x2 */
+    /**                    x1 ------- x2 */
     boolean addEdge(Data_t x1, Data_t x2) {
         boolean check = false;
         int x1_index = 0;
@@ -75,7 +79,43 @@ public class UndirectedGraph {
         if (check) return false;
 
         vertexes.get(x1_index).add(vertexes.get(x2_index).getFirst());
+        vertexes.get(x2_index).add(vertexes.get(x1_index).getFirst());
 
         return true;
+    }
+
+    private Data_t findByIndex(int index) {
+        return vertexes.get(index).getFirst();
+    }
+
+    private int findIndexByData(Data_t data) {
+        for (int i = 0; i < vertexes.size(); i++)
+            if (data.equals(vertexes.get(i).getFirst()))
+                return i;
+        return -1;
+    }
+
+    private LinkedList<Data_t> findDataByData(Data_t data) {
+        for (int i = 0; i < vertexes.size(); i++)
+            if (data.equals(vertexes.get(i).getFirst()))
+                return vertexes.get(i);
+        return null;
+    }
+
+
+    public void depthFirstSearch() {
+        boolean[] arr = new boolean[vertexes.size()];
+        for (int i = 0; i < vertexes.size(); i++)
+            arr[i] = false;
+        depthFirstSearchHelp(findByIndex(0), arr);
+    }
+
+    private void depthFirstSearchHelp(Data_t data, boolean[] arr) {
+        arr[findIndexByData(data)] = true;
+        System.out.println(data.toString() + " ");
+        LinkedList<Data_t> neighbours = findDataByData(data);
+        for (int i = 1; i < neighbours.size(); i++)
+            if (!arr[findIndexByData(neighbours.get(i))])
+                depthFirstSearchHelp(neighbours.get(i), arr);
     }
 }
