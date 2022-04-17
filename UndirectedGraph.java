@@ -148,10 +148,6 @@ public class UndirectedGraph {
             System.out.print(data.toString() + " ");
         } while (!queue.isEmpty());
     }
-
-    private void breadthFirstSearchHelp(boolean[] visited, MyQueue<Data_t> queue) {
-
-    }
 }
 
 class MyQueue<T> {

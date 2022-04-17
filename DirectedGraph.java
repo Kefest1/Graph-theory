@@ -73,48 +73,4 @@ public class DirectedGraph {
     }
 
 
-    public void depthFirstSearch() {
-        boolean[] arr = new boolean[vertexes.size()];
-        for (int i = 0; i < vertexes.size(); i++)
-            arr[i] = false;
-        depthFirstSearchHelp(findByIndex(0), arr);
-        System.out.println();
-    }
-
-
-    private void depthFirstSearchHelp(Data_t data, boolean[] arr) {
-        arr[findIndexByData(data)] = true;
-        System.out.print(data.toString() + " ");
-        LinkedList<Data_t> neighbours = findDataByData(data);
-        try {
-            for (int i = 1; i < neighbours.size(); i++)
-                if (!arr[findIndexByData(neighbours.get(i))])
-                    depthFirstSearchHelp(neighbours.get(i), arr);
-        } catch (Exception NullPointerException) {
-            System.out.print("Error!");
-        }
-    }
-
-    public void breadthFirstSearch() {
-        MyQueue<Data_t> queue = new MyQueue<>(vertexes.get(0).getFirst());
-        boolean[] visited = new boolean[vertexes.size()];
-        visited[0] = true;
-
-        do {
-            for (int j = 1; j < findDataByData(queue.queueGetFirst()).size(); j++) {
-                if (!visited[findIndexByData(findDataByData(queue.queueGetFirst()).get(j))]) {
-                    queue.queuePush(findDataByData(queue.queueGetFirst()).get(j));
-                    visited[findIndexByData(findDataByData(queue.queueGetFirst()).get(j))] = true;
-                }
-            }
-            Data_t data = queue.queuePop();
-            System.out.print(data.toString() + " ");
-        } while (!queue.isEmpty());
-    }
-
-    private void breadthFirstSearchHelp(boolean[] visited, MyQueue<Data_t> queue) {
-
-    }
-
-
 }
