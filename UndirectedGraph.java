@@ -2,6 +2,7 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Queue;
 
 abstract class Data_t {
     public abstract boolean isEqual(Object node);
@@ -32,6 +33,10 @@ class Vertex_t extends Data_t {
 
 public class UndirectedGraph {
     ArrayList<LinkedList<Data_t>> vertexes;
+
+    public int getSize() {
+        return vertexes.size();
+    }
 
     UndirectedGraph() {
         vertexes = new ArrayList<>();
@@ -112,13 +117,6 @@ public class UndirectedGraph {
         System.out.println();
     }
 
-    public void breadthFirstSerch() {
-        boolean[] arr = new boolean[vertexes.size()];
-        for (int i = 0; i < vertexes.size(); i++)
-            arr[i] = false;
-        depthFirstSearchHelp(findByIndex(0), arr);
-        System.out.println();
-    }
 
     private void depthFirstSearchHelp(Data_t data, boolean[] arr) {
         arr[findIndexByData(data)] = true;
@@ -133,11 +131,36 @@ public class UndirectedGraph {
             System.out.print("Error!");
         }
     }
+
+    public void breadthFirstSearch() {
+        MyQueue<Data_t> queue = new MyQueue<>(vertexes.get(0).getFirst());
+        boolean[] visited = new boolean[vertexes.size()];
+        visited[0] = true;
+
+        do {
+            for (int j = 1; j < findDataByData(queue.queueGetFirst()).size(); j++) {
+                if (!visited[findIndexByData(findDataByData(queue.queueGetFirst()).get(j))]) {
+                    queue.queuePush(findDataByData(queue.queueGetFirst()).get(j));
+                    visited[findIndexByData(findDataByData(queue.queueGetFirst()).get(j))] = true;
+                }
+            }
+            Data_t data = queue.queuePop();
+            System.out.print(data.toString() + " ");
+        } while (!queue.isEmpty());
+    }
+
+    private void breadthFirstSearchHelp(boolean[] visited, MyQueue<Data_t> queue) {
+
+    }
 }
 
 class MyQueue<T> {
     private int size;
     private MyNode<T> head;
+
+    public int getSize() {
+        return size;
+    }
 
     MyQueue() {
         size = 0;
@@ -146,6 +169,10 @@ class MyQueue<T> {
     MyQueue(T xdata) {
         head = new MyNode<T>(xdata);
         size = 1;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
     }
 
     void queuePush(T element) {
@@ -169,11 +196,22 @@ class MyQueue<T> {
         return null;
     }
 
+    T queueGetFirst() {
+        return head.data;
+    }
 }
 
 class MyStack<T> {
     private int size;
     private MyNode<T> head;
+
+    public int getSize() {
+        return size;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
 
     MyStack() {
         size = 0;
@@ -200,6 +238,7 @@ class MyStack<T> {
         head = head.next;
         return ret;
     }
+
 
 }
 

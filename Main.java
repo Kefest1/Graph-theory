@@ -4,6 +4,14 @@ import java.util.Stack;
 
 class Main {
     public static void main(String[] args) {
+        MyQueue<Integer> queue = new MyQueue<>();
+        queue.queuePush(5);
+        queue.queuePush(51);
+        queue.queuePush(52);
+
+        Integer x = queue.queueGetFirst();
+        x = 2137;
+
         UndirectedGraph graph = new UndirectedGraph(new Vertex_t('A'));
         graph.addNode(new Vertex_t('A')); // 0
         graph.addNode(new Vertex_t('B')); // 1
@@ -37,6 +45,6 @@ class Main {
         graph.addEdge(new Vertex_t('H'), new Vertex_t('D'));
         graph.addEdge(new Vertex_t('D'), new Vertex_t('C'));
         graph.addEdge(new Vertex_t('D'), new Vertex_t('E'));
-        graph.depthFirstSearch();
+        graph.breadthFirstSearch();
     }
 }
