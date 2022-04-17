@@ -171,6 +171,38 @@ class MyQueue<T> {
 
 }
 
+class MyStack<T> {
+    private int size;
+    private MyNode<T> head;
+
+    MyStack() {
+        size = 0;
+    }
+
+    MyStack(T xdata) {
+        head = new MyNode<T>(xdata);
+        size = 1;
+    }
+
+    void stackPush(T element) {
+        if (head == null) head = new MyNode<T>(element);
+        else {
+            MyNode<T> temp = new MyNode<>(element);
+            temp.next = head;
+            head = temp;
+        }
+        size++;
+    }
+
+    T stackPop() {
+        if (size == 0) return null;
+        T ret = head.data;
+        head = head.next;
+        return ret;
+    }
+
+}
+
 class MyNode<T> {
     T data;
     MyNode<T> next;
