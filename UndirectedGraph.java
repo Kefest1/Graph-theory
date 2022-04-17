@@ -137,24 +137,24 @@ public class UndirectedGraph {
 
 class MyQueue<T> {
     private int size;
-    private QueueNode<T> head;
+    private MyNode<T> head;
 
     MyQueue() {
         size = 0;
     }
 
     MyQueue(T xdata) {
-        head = new QueueNode<T>(xdata);
+        head = new MyNode<T>(xdata);
         size = 1;
     }
 
     void queuePush(T element) {
-        if (head == null) head = new QueueNode<T>(element);
+        if (head == null) head = new MyNode<T>(element);
         else {
-            QueueNode<T> temp = head;
+            MyNode<T> temp = head;
             while (temp.next != null)
                 temp = temp.next;
-            temp.next = new QueueNode<T>(element);
+            temp.next = new MyNode<T>(element);
         }
         size++;
     }
@@ -171,11 +171,11 @@ class MyQueue<T> {
 
 }
 
-class QueueNode<T> {
+class MyNode<T> {
     T data;
-    QueueNode<T> next;
+    MyNode<T> next;
 
-    QueueNode(T Data) {
+    MyNode(T Data) {
         data = Data;
     }
 }
