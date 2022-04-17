@@ -3,18 +3,21 @@ package com.company;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-abstract class Data_t extends Object {
+abstract class Data_t {
     public abstract boolean isEqual(Object node);
 
 }
 
 class Vertex_t extends Data_t {
-    char x = 0;
+    char x;
 
     public String toString() {
         return String.valueOf(x);
     }
 
+    Vertex_t(){
+        x = 0;
+    }
 
     Vertex_t(char X) {
         x = X;
@@ -36,13 +39,13 @@ public class UndirectedGraph {
 
     UndirectedGraph(Data_t vertex) {
         vertexes = new ArrayList<>();
-        vertexes.add(new LinkedList<Data_t>());
+        vertexes.add(new LinkedList<>());
         vertexes.get(0).add(vertex);
     }
 
     boolean addNode(Data_t vertex) {
-        for (int i = 0; i < vertexes.size(); i++)
-            if (vertex.isEqual(vertexes.get(i).getFirst()))
+        for (LinkedList<Data_t> data_ts : vertexes)
+            if (vertex.isEqual(data_ts.getFirst()))
                 return false;
 
 
@@ -56,8 +59,6 @@ public class UndirectedGraph {
         boolean check = false;
         int x1_index = 0;
         int x2_index = 0;
-
-        int dupa;
 
         for (int i = 0; i < vertexes.size(); i++) {
             if (x1.isEqual(vertexes.get(i).getFirst())) {
@@ -108,14 +109,73 @@ public class UndirectedGraph {
         for (int i = 0; i < vertexes.size(); i++)
             arr[i] = false;
         depthFirstSearchHelp(findByIndex(0), arr);
+        System.out.println();
+    }
+
+    public void breadthFirstSerch() {
+        boolean[] arr = new boolean[vertexes.size()];
+        for (int i = 0; i < vertexes.size(); i++)
+            arr[i] = false;
+        depthFirstSearchHelp(findByIndex(0), arr);
+        System.out.println();
     }
 
     private void depthFirstSearchHelp(Data_t data, boolean[] arr) {
         arr[findIndexByData(data)] = true;
-        System.out.println(data.toString() + " ");
+        System.out.print(data.toString() + " ");
         LinkedList<Data_t> neighbours = findDataByData(data);
-        for (int i = 1; i < neighbours.size(); i++)
-            if (!arr[findIndexByData(neighbours.get(i))])
-                depthFirstSearchHelp(neighbours.get(i), arr);
+        try {
+            for (int i = 1; i < neighbours.size(); i++)
+                if (!arr[findIndexByData(neighbours.get(i))])
+                    depthFirstSearchHelp(neighbours.get(i), arr);
+        }
+        catch (Exception NullPointerException) {
+            System.out.print("Error!");
+        }
+    }
+}
+
+class MyQueue<T> {
+    private int size;
+    private QueueNode<T> head;
+
+    MyQueue() {
+        size = 0;
+    }
+
+    MyQueue(T xdata) {
+        head = new QueueNode<T>(xdata);
+        size = 1;
+    }
+
+    void queuePush(T element) {
+        if (head == null) head = new QueueNode<T>(element);
+        else {
+            QueueNode<T> temp = head;
+            while (temp.next != null)
+                temp = temp.next;
+            temp.next = new QueueNode<T>(element);
+        }
+        size++;
+    }
+
+    T queuePop() {
+        if (size != 0) {
+            size--;
+            T buf = head.data;
+            head = head.next;
+            return buf;
+        }
+        return null;
+    }
+
+}
+
+class QueueNode<T> {
+    T data;
+    QueueNode<T> next;
+
+    QueueNode(T Data) {
+        data = Data;
     }
 }
