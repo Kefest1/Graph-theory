@@ -9,6 +9,8 @@ class Vertex {
     private Data_t from, to;
     private int weight;
 
+
+
     public int getWeight() {
         return weight;
     }
@@ -21,13 +23,9 @@ class Vertex {
         return to;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Vertex vertex = (Vertex) o;
+    public boolean equals(Vertex o) {
         // Purposefully ignores weight //
-        return Objects.equals(from, vertex.from) && Objects.equals(to, vertex.to);
+        return this.from.isEqual(o.from) && this.to.isEqual(o.to);
     }
 
     public Vertex(Data_t from, Data_t to, int weight) {
@@ -35,12 +33,19 @@ class Vertex {
         this.from = from;
         this.to = to;
     }
+
+    public Vertex(Vertex vertex) {
+        this.weight = vertex.getWeight();
+        this.from = vertex.getTo();
+        this.to = vertex.getFrom();
+    }
 }
 
 public class DirectedWeightedGraph {
     int getSize() {
         return edges.size();
     }
+
     private LinkedList<Vertex> vertices; // krawędzie
     private ArrayList<Data_t> edges; // wierzchołki
 
@@ -50,8 +55,8 @@ public class DirectedWeightedGraph {
     }
 
     void addEdge(Data_t node) {
-        for (int i = 0; i < vertices.size(); i++)
-            if (node == edges.get(i))
+        for (Data_t edge : edges)
+            if (node.isEqual(edge))
                 return;
 
         edges.add(node);
@@ -62,18 +67,26 @@ public class DirectedWeightedGraph {
 
         for (Vertex vertex : vertices) {
             try {
-                if (vertex.equals(vertex1) && vertex.equals(vertex2)) {
+                if (vertex.equals(vertex1) || vertex.equals(vertex2))
                     throw new RedundantPath();
-                }
             } catch (Exception RedundantPath) {
                 System.out.println("Vertex already exists");
                 return;
             }
+
         }
-
-
-
         vertices.add(vertex1);
     }
 
+    private Data_t findByIndex(int index) {
+        return edges.get(index);
+    }
+
+    private int findIndexByData(Data_t data) {
+        for (int i = 0; i < edges.size(); i++)
+            if (edges.get(i).equals(data))
+                return i;
+
+        return -1;
+    }
 }
